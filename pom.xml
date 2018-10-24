@@ -18,6 +18,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <modules>
+        <module>molecule-discovery</module>
+    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -30,6 +34,7 @@
         <swagger.version>3.0.0-SNAPSHOT</swagger.version>
 
         <!-- Docker-related properties -->
+        <docker.skip>true</docker.skip>
         <docker-repository>filipowm</docker-repository> <!-- Use hub.docker.com -->
         <docker-image-alias>${project.artifactId}</docker-image-alias>
         <spring-profile-active>docker</spring-profile-active>
@@ -58,16 +63,19 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${swagger.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-spring-webflux</artifactId>
                 <version>${swagger.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -114,7 +122,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <verbose>true</verbose>
+                    <verbose>false</verbose>
+                    <skip>${docker.skip}</skip>
                     <images>
                         <image>
                             <name>${docker-repository}/${project.artifactId}</name>
