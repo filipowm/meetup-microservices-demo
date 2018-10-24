@@ -42,7 +42,7 @@ class MoleculeDiscoveryService implements DiscoveryService, MoleculeFinder {
 
     @StreamListener(CompoundProcessor.COMPOUND_RESPONSE)
     void receivedCompounds(String discoveryId) {
-        log.warn("Received compounds for discovery {}", discoveryId);
+        log.info("Received compounds for discovery {}", discoveryId);
         Optional<Molecule> molecule = repository.findOneByDiscoveryId(discoveryId);
         molecule.map(Molecule::startResearch)
                 .ifPresent(repository::save);
