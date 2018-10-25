@@ -43,8 +43,8 @@ class MoleculeDiscoveryService implements DiscoveryService, MoleculeFinder {
 
     @StreamListener(CompoundProcessor.COMPOUND_RESPONSE)
     void receivedCompounds(String discoveryId) {
-        log.info("Received compounds for discovery {}", discoveryId);
         Optional<Molecule> molecule = repository.findOneByDiscoveryId(discoveryId);
+        log.info("Received compounds for discovery {} and molecule {}", discoveryId, molecule.isPresent() ? molecule.get().getName() : "[NOT FOUND]");
         molecule.map(Molecule::startResearch)
                 .map(repository::save)
                 .map(this::doResearch)
@@ -55,6 +55,7 @@ class MoleculeDiscoveryService implements DiscoveryService, MoleculeFinder {
 
     private Molecule doResearch(Molecule molecule) {
         try {
+            log.info("Checking if drug discovery {} will succeed", molecule.getDiscoveryId());
             Double probability = client.predict(molecule.getDiscoveryId());
             if (probability >= 0.8) {
                 log.warn("Yuppy! Your drug discovery {} will succeed!", molecule.getDiscoveryId());
