@@ -1,11 +1,8 @@
 spring:
-  profiles:
-    include:
-      - show-sql
   datasource:
-      url: jdbc:mysql://application-mysql:3306/application
-      username: user
-      password: user
+      url: jdbc:mysql://discovery-mysql:3306/discovery
+      username: root
+      password: root
   jpa:
     hibernate:
       ddl-auto: update

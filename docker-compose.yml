@@ -1,0 +1,66 @@
+version: '3.6'
+
+services:
+  discovery:
+    image: filipowm/molecule-discovery
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "discovery-mysql"
+      - "rabbitmq"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - discovery
+      - rabbitmq
+
+  warehouse:
+    image: filipowm/warehouse
+    ports:
+      - "8090:8080"
+    depends_on:
+      - "warehouse-mysql"
+      - "rabbitmq"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - warehouse
+      - rabbitmq
+
+  discovery-mysql:
+    image: "mysql:5.7"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: discovery
+    networks:
+      - discovery
+
+  warehouse-mysql:
+    image: "mysql:5.7"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: warehouse
+    networks:
+      - warehouse
+
+  rabbitmq:
+    image: "rabbitmq:3.7.7-management-alpine"
+    expose:
+      - "5672"
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: user
+    networks:
+      - rabbitmq
+
+networks:
+  rabbitmq:
+  warehouse:
+  discovery:
+  net:

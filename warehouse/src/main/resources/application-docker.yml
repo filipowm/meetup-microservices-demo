@@ -1,8 +1,8 @@
 spring:
   datasource:
       url: jdbc:mysql://warehouse-mysql:3306/warehouse
-      username: user
-      password: user
+      username: root
+      password: root
   jpa:
     hibernate:
       ddl-auto: update
