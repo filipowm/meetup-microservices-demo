@@ -3,6 +3,7 @@ package pl.filipowm.discovery.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import pl.filipowm.discovery.application.command.MoleculeDiscoveryCommand;
 import pl.filipowm.discovery.domain.Molecule;
@@ -11,7 +12,7 @@ import pl.filipowm.discovery.domain.MoleculeRepository;
 import pl.filipowm.discovery.domain.Phase;
 import pl.filipowm.discovery.infrastructure.DiscoveryProbabilityClient;
 import pl.filipowm.discovery.infrastructure.messaging.CompoundProcessor;
-import pl.filipowm.discovery.infrastructure.messaging.CompoundRequestHandler;
+import pl.filipowm.discovery.infrastructure.messaging.CompoundsOrder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -25,20 +26,23 @@ class MoleculeDiscoveryService implements DiscoveryService, MoleculeFinder {
 
     private final MoleculeRepository repository;
     private final MoleculeMapper mapper;
-    private final CompoundRequestHandler requestHandler;
+    private final CompoundProcessor processor;
     private final DiscoveryProbabilityClient client;
 
     @Override
     public Mono<MoleculeDto> startDiscovery(MoleculeDiscoveryCommand command) {
         log.info("Starting discovery of a drug {}", command.getName());
-        Mono<Molecule> moleculeMono = Mono.just(command)
-                .map(mapper::forCreate);
-
-        requestHandler.requestCompounds(moleculeMono);
-
-        return moleculeMono
+        return Mono.just(command)
+                .map(mapper::forCreate)
                 .map(repository::save)
+                .doOnNext(this::sendCompoundsOrder)
                 .map(mapper::forGet);
+
+    }
+
+    private void sendCompoundsOrder(Molecule molecule) {
+        CompoundsOrder order = CompoundsOrder.forMolecule(molecule);
+        processor.request().send(MessageBuilder.withPayload(order).build());
     }
 
     @StreamListener(CompoundProcessor.COMPOUND_RESPONSE)

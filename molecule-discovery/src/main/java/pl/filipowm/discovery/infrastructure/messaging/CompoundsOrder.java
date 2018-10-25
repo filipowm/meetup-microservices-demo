@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-class CompoundsOrder {
+public class CompoundsOrder {
 
     private String discoveryId;
     private Collection<CompoundDto> compounds;
 
-    static CompoundsOrder forMolecule(Molecule molecule) {
+    public static CompoundsOrder forMolecule(Molecule molecule) {
         CompoundsOrder order = new CompoundsOrder();
         order.setDiscoveryId(molecule.getDiscoveryId());
         List<CompoundDto> collect = molecule.getIngredients()
