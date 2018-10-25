@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.filipowm.discovery.application.command.MoleculeDiscoveryCommand;
 import pl.filipowm.discovery.domain.Molecule;
 import pl.filipowm.discovery.domain.MoleculeFinder;
@@ -22,7 +21,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 class MoleculeDiscoveryService implements DiscoveryService, MoleculeFinder {
 
     private final MoleculeRepository repository;
