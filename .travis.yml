@@ -1,0 +1,21 @@
+sudo: false
+language: java
+jdk:
+- oraclejdk8
+env:
+  global:
+  - secure: Fq/zW2YAXCweljhkhj1FkPnvVtfbXjWfhy9mtTAlCf+3HlqbdkCn0MuNSY5jz4/q5pjQkxovyxoNAwgc84MJkqxD6jaTsjAfr3CNRJCLWOaQ6pVF0JJfjJ/fdEHr+kIaul9BR4U6rLdqbmwVhrkkN+UHe4ZWNb9/nHkkWq7YFE31lKhSD0ap9aUlI/RVcX2Ovb0ZaFY5XmCJV4QmZ4wS0GkmYh2duCeTrRX4NEomnEgTa/rvw0+26B7vgdR3Er4yQ0+7A/uPU9hGg6PkzXleiAEgi/agMes97fRUKTYCIyl4u9kCowpWN3zEtSm/eyblVkjgPMoQfBPYj/N67nP2LhA9plrdVk90JT1g70NN3sYURrvGYucrOYe9qTLzIc9vaALZtLNcXJW+T0W7Iv+DNKHA0LQOlaIN7vCx2ARs6T7KEUsMFpcCOz0YsWY4Cm0NyB9xtVOPBcoNP6Du1DP8KUdVVo5KScIQ3g7aFBO0v0qXXvN4HDivkSpVBFpp/Rd+XRvXM4n0Rr8ChMkC3o6eR6KirvsSgEVBgitduRcyXPZtFzT+xdhwOqgDzkZoklI5byU+5mDiQXrZ7HYZylmJfOS+UQUBBAli24LIJf2toRXCffkiUjusqkZYORzudCv+uh425MvZemEzNATuJODK7jZq1NuDRda725OSCXFXdZw=
+  - secure: EHt6N0r8NxVfp/2Q0Q10R1aW35HvVqVZS+/ytbRAK1kqqLaDxPdD9wA/5tSuVHVy1b2uOMSrA5zEXNH6JyVcNJOrF06q5svbZGh77GmJW+6jsDRlGDM3lcfatktDe9fkLK+O263mAuSye4wJvTR/GNf3cuerFJoWWWK/hBwUaJwrKaKQqckyJVmQ0RKvGgp0wpxx1JebzSvtRG8h52HDUZbcX1NPkWr0SukRgoVLl4b9hedKXafsrX8G5OZr2nn52DOmItky0vClmpvHY+PgZ4Skd1P8moiBD2+kJD4TQBIln4aU66bTukbES7uYLmm2++6ynp6tomC6UlLSSVloFAzwknPQci1fbxK5mppGdCzAoTcOOP3tRBNtpniS6ZMjB3FQr5KVnm4qikG/EkQGZLYvkj166Xi0aXsaYWM4UEB6RGhkJzeVcq7UU/HfPrUyRqPZSz7C8DvXMakWjp+mcLO5M+Gh4n/xqpchNwhT6qUk+6ceM/boZf3IDesLngj1yTMLlizHRmiGvuHvIJNjyqzOztY0TZWAqnDi6DqlRQ2YcojWcHdTnFccVncV3DXE2AIbXEZd4f/fS/fKaIt+n7nBfKiib2gGY/CnuMC5t4BKhCiuouOugS9AQw0LdOIEbDeAKKa/ulkaWOBxewY3U9tS6rF0ASsBNdUatxkEyvs=
+services:
+- docker
+cache:
+  directories:
+  - "$HOME/.m2"
+script:
+- mvn clean package docker:build
+deploy:
+  provider: script
+  script: mvn docker:push -Ddocker.username=$DOCKER_USERNAME -Ddocker.password=$DOCKER_PASSWORD
+  skip_cleanup: true
+  on:
+    branch: master
