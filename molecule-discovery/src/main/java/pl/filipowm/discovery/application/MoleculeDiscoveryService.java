@@ -32,12 +32,12 @@ class MoleculeDiscoveryService implements DiscoveryService, MoleculeFinder {
     public Mono<MoleculeDto> startDiscovery(MoleculeDiscoveryCommand command) {
         log.info("Starting discovery of a drug {}", command.getName());
         Mono<Molecule> moleculeMono = Mono.just(command)
-                .map(mapper::forCreate)
-                .map(repository::save);
+                .map(mapper::forCreate);
 
         requestHandler.requestCompounds(moleculeMono);
 
         return moleculeMono
+                .map(repository::save)
                 .map(mapper::forGet);
     }
 
