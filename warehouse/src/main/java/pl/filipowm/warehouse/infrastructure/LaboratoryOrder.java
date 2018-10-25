@@ -1,14 +1,14 @@
 package pl.filipowm.warehouse.infrastructure;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
-@Value
-@Builder
+@Data
+@NoArgsConstructor
 class LaboratoryOrder {
     private String discoveryId;
-    private Collection<CompoundOrder> compounds = new HashSet<>();
+    private Collection<CompoundOrder> compounds = new ArrayList<>();
 }

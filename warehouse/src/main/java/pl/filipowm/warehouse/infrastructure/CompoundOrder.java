@@ -1,10 +1,10 @@
 package pl.filipowm.warehouse.infrastructure;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
-@Builder
+@Data
+@NoArgsConstructor
 public class CompoundOrder {
     private String name;
     private long amount;
