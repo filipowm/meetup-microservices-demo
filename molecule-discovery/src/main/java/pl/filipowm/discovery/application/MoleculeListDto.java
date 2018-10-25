@@ -8,7 +8,6 @@ public class MoleculeListDto {
 
     private Long id;
     private String name;
-    private String discoveryId;
     private Phase phase;
 
 }

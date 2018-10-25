@@ -65,7 +65,7 @@ class MoleculeDiscoveryService implements DiscoveryService, MoleculeFinder {
                 log.warn("Yuppy! Your drug discovery {} will succeed!", molecule.getDiscoveryId());
                 molecule.proceedToPhase(Phase.RELEASED);
             } else {
-                log.warn("Try another compound mixture. This drag {} was bad...", molecule.getDiscoveryId());
+                log.warn("Try another compound mixture. This drug {} was bad...", molecule.getDiscoveryId());
                 molecule.proceedToPhase(Phase.DROPPED);
             }
         } catch (Exception e) {
