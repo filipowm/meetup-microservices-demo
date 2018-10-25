@@ -21,6 +21,7 @@
     <modules>
         <module>molecule-discovery</module>
         <module>warehouse</module>
+        <module>discovery-prediction</module>
     </modules>
 
     <properties>
