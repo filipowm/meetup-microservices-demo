@@ -9,13 +9,12 @@
     <packaging>jar</packaging>
 
     <name>discovery-prediction</name>
-    <description>Molecule Discovery microservice</description>
+    <description>Molecule Discovery success Prediction</description>
 
     <parent>
         <groupId>pl.filipowm.microservices</groupId>
         <artifactId>demo-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
 
     <properties>
