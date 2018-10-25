@@ -59,6 +59,31 @@ services:
     networks:
       - rabbitmq
 
+  traefik:
+      image: traefik:latest
+      command:
+        - --docker
+#        - --docker.swarmMode
+        - --docker.domain=traefik
+        - --docker.watch
+        - --api
+      networks:
+        - net
+      ports:
+        - 80:80
+        - 5000:8080
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      deploy:
+        replicas: 1
+        placement:
+          constraints: [node.role == manager]
+        restart_policy:
+          condition: any
+          delay: 3s
+          max_attempts: 5
+          window: 60s
+
 networks:
   rabbitmq:
   warehouse:
