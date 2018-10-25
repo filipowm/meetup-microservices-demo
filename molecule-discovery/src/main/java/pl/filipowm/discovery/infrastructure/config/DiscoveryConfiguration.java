@@ -2,6 +2,7 @@ package pl.filipowm.discovery.infrastructure.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
+import pl.filipowm.discovery.infrastructure.DiscoveryProbabilityClient;
 import pl.filipowm.discovery.infrastructure.messaging.CompoundProcessor;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -23,6 +25,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 @EnableSwagger2WebFlux
 @Slf4j
 @EnableScheduling
+@EnableFeignClients(clients = DiscoveryProbabilityClient.class)
 @EnableBinding(CompoundProcessor.class)
 class DiscoveryConfiguration implements InitializingBean, WebFluxConfigurer {
 

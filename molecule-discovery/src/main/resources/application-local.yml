@@ -20,3 +20,6 @@ spring:
                 username: user
                 password: user
                 virtual-host: /
+
+prediction:
+  url: localhost:9000

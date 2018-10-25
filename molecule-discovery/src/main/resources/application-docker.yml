@@ -19,3 +19,6 @@ spring:
                 username: user
                 password: user
                 virtual-host: /
+
+prediction:
+  url: discovery-prediction:9000/
